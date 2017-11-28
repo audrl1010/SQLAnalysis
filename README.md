@@ -52,6 +52,49 @@ CREATE TABLE Product
 ```
 
 
+# 데이터형 지정
+* INTEGER
+정수를 넣기 위한 데이터형 이다. 소수는 넣을 수 없다.
+
+* CHAR
+문자열을 넣기 위한 데이터형이다. CHAR(10), CHAR(150) 처럼 열 안에 넣을 수 있는 문자열의 최대 길이를 괄호 안에 지정할 수 있다. 
+CHAR형 옆에는 **고정 문자열**이라는 데이터가 저장된다. 고정 문자열에서는 열에 넣는 문자열 길이가 최대 길이보다 작은 경우, 문자 수가 최대 길이가 될 때 까지 공백으로 채운다.
+
+* VARCHAR
+CHAR형과 비슷하지만 **가변문자열** 형식으로 열 안에 저장된다는 곳이 다르다.
+가변 문자역에서는 문자 수가 최대 길이보다 작아도 공백으로 채우지 않는다.
+
+# 제약 설정
+데이터형 외에도 열에 넣을 데이터에 제약이나 조건을 추가하는 기능이다.
+NULL 제약은 '데이터 없음' 상태를 표현하는 키워드다. NOT NULL 제약은 반드시 데이터가 존재해야 한다는 것을 의미한다. PRIMARY KEY(열 이름)는 주 키 제약을 의미한다. 주 키는 하나의 행을 특정 짓을 수 있는 열을 의미한다.
+
+# 테이블 삭제
+`DROP TABLE <table 이름>;`
+
+```sql
+DROP TABLE Shop;
+```
+
+# 테이블 정의 변경
+열 추가하기
+`ALTER TABLE <table 이름> ADD COLUMN <열 정의>;`
+
+```sql
+ALTER TABLE Shop ADD COLUMN name_eng VARCHAR(100);
+```
+
+열 삭제하기
+`ALTER TABLE <table 이름> DROP COLUMN name_eng;`
+
+```sql
+ALTER TABLE Shop DROP COLUMN name_eng;
+```
+# 테이블 명 수정
+`RENAME TABLE <table 이름> to <새로운 table 이름>;`
+
+```sql
+RENAME TABLE Shp to Shop;
+```
 
 
 
