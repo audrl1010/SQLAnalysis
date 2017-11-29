@@ -109,6 +109,67 @@ RENAME TABLE <table 이름> to <새로운 table 이름>;
 RENAME TABLE Shp to Shop;
 ```
 
+# 열 출력
+`SELECT`: 테이블에서 필요한 데이터를 검색해서 추출할 때 사용한다.
+
+```sql
+SELECT <열 이름>, ....
+   FROM <테이블 이름>;
+```
+```sql
+SELECT id, name, price
+   FROM product;
+```
+
+## 모든 열을 출력
+```sql
+SELECT *
+   FROM <테이블 이름>;
+```
+```sql
+SELECT *
+   FROM product;
+```
+
+## 열에 별칭 부여
+AS 키워드는 사용해서 열에 별명을 부여할 수 있다.
+```sql
+SELECT id AS product_id,
+	        name AS product_name,
+	        price AS product_price
+  FROM product;
+```
+
+별명에 한글을 사용하려면 큰따옴표(`""`)를 사용한다.
+```sql
+SELECT  id        AS "상품ID",
+	         name  AS "상품명",
+	         price   AS "가격"
+  FROM product;
+```
+## 결과에서 중복 행 제거
+중복을 제외한 결과를 얻고 싶을 때는 SELECT 키워드 뒤에 `DISTINCT`라는 키워드를 붙인다.
+```sql
+SELECT DISTINCT <열 이름> ...
+   FROM <테이블 이름>;
+```
+
+## 원하는 행 선택
+선택하고 싶은 행의 조건을 WHERE에 지정한다.
+```sql
+SELECT DISTINCT <열 이름>, ....
+   FROM <테이블 이름>
+ WHERE <조건식>;
+```
+```sql
+SELECT DISTINCT price
+   FROM product
+ WHERE name = "구스잠바";
+```
+
+
+
+
 
 
 
