@@ -1,3 +1,5 @@
+`MySQL` 기준으로 작성되었습니다.
+
 # SQL(Structured Query Language)
 관계명 데이터베이스를 제어하기 위한 언어이다.
 
