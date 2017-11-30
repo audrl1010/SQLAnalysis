@@ -205,7 +205,7 @@ SELECT MIN(price)
 ```
 
 집약 함수 사용 시 중복값 제외
-DISTINCT 키워드를 사용하여 중복을 제거할 수 있다.
+`DISTINCT` 키워드를 사용하여 중복을 제거할 수 있다.
 
 ```sql
 SELECT COUNT(DISTINCT classify)
