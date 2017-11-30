@@ -134,6 +134,7 @@ SELECT *
 ## 열에 별칭 부여
 AS 키워드는 사용해서 열에 별명을 부여할 수 있다.
 ```sql
+
 SELECT id AS product_id,
 	        name AS product_name,
 	        price AS product_price
@@ -167,11 +168,49 @@ SELECT DISTINCT price
  WHERE name = "구스잠바";
 ```
 
+## 집약함수
+`집약`은 '복수의 행을 하나의 행으로 모은다'라는 의미다.
 
+`COUNT`: 테이블 행수를 계산한다.
+```sql
+SELECT COUNT(*) // * 이것을 쓸 경우 NULL값도 포함된다.
+  FROM product;
+  
+SELECT COUNT(price) 특정 열을 지정할 경우 NULL값이 포함되지 않는다.
+  FROM product;
+```
 
+`SUM`: 숫자열 데이터의 합계를 구한다.
+```sql
+SELECT SUM(price)
+  FROM product;
+```
 
+`AVG`: 숫자열 데이터의 평균을 구한다.
+```sql
+SELECT AVG(price)
+  FROM product;
+```
 
+`MAX`: 임의 열이 가진 데이터의 최대값을 구한다.
+```sql
+SELECT MAX(price)
+  FROM product;
+```
 
+`MIN`: 임의 열이 가진 데이터의 최소값을 구한다.
+```sql
+SELECT MIN(price)
+  FROM product;
+```
+
+집약 함수 사용 시 중복값 제외
+DISTINCT 키워드를 사용하여 중복을 제거할 수 있다.
+
+```sql
+SELECT COUNT(DISTINCT classify)
+  FROM product;
+```
 
 
 
