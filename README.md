@@ -212,8 +212,34 @@ SELECT COUNT(DISTINCT classify)
   FROM product;
 ```
 
-# SELECT 실행 순서
+## GROUP BY
+테이블을 테이블을 자르는 칼이다.
+GROUP BY 구에 지정하는 열을 `집약 키` 또는 `그룹화 열`이라 한다.
+```sql
+SELECT <열 이름1>, <열 이름2>,  <열 이름3>, ....
+  FROM <테이블 이름>
+  GROUP BY <열 이름1>, <열 이름2>, <열이름3>, ....;
+```
+```sql
+SELECT classify, COUNT(*)
+  FROM product
+  GROUP BY classify;
+```
+
+
+## SELECT 실행 순서
 ```sql
 FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
+```
+
+## 집약 함수와 GROUP BY 구를 사용할 때 자주하는 실수
+
+### SELECT 구에 필요 없는 열을 쓴다
+집약함수를 사용하는 경우 SELECT구에 쓸 수 있는 요소는 3가지이다. `상수`, `집약 함수`, `GROUP BY 구에서 지정할 열`
+
+```sql
+SELECT name, price, COUNT(*) -- name 때문에 에러가 난다. GROUP BY구에 없기 때문에 SELECT 구에 쓸 수 없다.
+  FROM product
+GROUP BY price; 
 ```
 
