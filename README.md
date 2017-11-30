@@ -135,17 +135,17 @@ SELECT *
 AS 키워드는 사용해서 열에 별명을 부여할 수 있다.
 ```sql
 
-SELECT id AS product_id,
-	        name AS product_name,
-	        price AS product_price
+SELECT id   AS product_id,
+       name AS product_name,
+       price AS product_price
   FROM product;
 ```
 
 별명에 한글을 사용하려면 큰따옴표(`""`)를 사용한다.
 ```sql
-SELECT  id        AS "상품ID",
-	         name  AS "상품명",
-	         price   AS "가격"
+SELECT  id     AS "상품ID",
+	name   AS "상품명",
+	price  AS "가격"
   FROM product;
 ```
 ## 결과에서 중복 행 제거
@@ -158,13 +158,13 @@ SELECT DISTINCT <열 이름> ...
 ## 원하는 행 선택
 선택하고 싶은 행의 조건을 WHERE에 지정한다.
 ```sql
-SELECT DISTINCT <열 이름>, ....
-   FROM <테이블 이름>
- WHERE <조건식>;
+SELECT <열 이름>, ....
+ FROM <테이블 이름>
+WHERE <조건식>;
 ```
 ```sql
-SELECT DISTINCT price
-   FROM product
+SELECT price
+  FROM product
  WHERE name = "구스잠바";
 ```
 
@@ -212,5 +212,8 @@ SELECT COUNT(DISTINCT classify)
   FROM product;
 ```
 
-
+# SELECT 실행 순서
+```sql
+FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
+```
 
