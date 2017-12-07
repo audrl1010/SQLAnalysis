@@ -230,8 +230,13 @@ SELECT classify, COUNT(*)
 
 
 ## SELECT 실행 순서
+축약 실행 순서
 ```sql
 FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
+```
+전체 실행 순서
+```sql
+FROM -> ON -> JOIN -> WHERE -> GROUP BY -> CUBE | ROLLUP -> HAVING -> SELECT -> DISTINCT -> ORDER BY -> TOP
 ```
 
 ## 집약 함수와 GROUP BY 구를 사용할 때 자주하는 실수
