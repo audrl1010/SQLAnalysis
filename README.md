@@ -281,3 +281,97 @@ SELECT id, name, sell_price, buy_price
 ORDER BY sell_price ASC -- DESC(내림차순);
 ```
 
+## 데이터 갱신
+### 데이터 등록
+#### INSERT?
+`INSERT`는 레코드(행)을 삽입하는 구이다.
+
+```sql
+INSERT INTO <테이블 이름> (열1, 열2, 열3, ...) VALUES (값1, 값2, 값3, ...)
+-- 열 리스트와 값 리스트의 수가 일치해야 한다.
+-- 열 리스트는 생략할 수 있다.(단, 테이블 생성 당시의 열 순서로 값리스트를 넣어야 한다.)
+```
+```sql
+INSERT INTO product VALUES('0001', '세제', '주방용품', 6800, 5000, '2010-03-20');
+```
+
+
+#### 다른 테이블에서 데이터를 복사
+```sql
+INSERT INTO productCopy (id, name, classify, sell_price, buy_price, register_date)
+SELECT id, name, classify, sell_price, buy_price, register_date
+  FROM product;
+```
+
+### 데이터 삭제
+#### DELETE ?
+`DELETE`는 레코드(행)을 삭제하는 구이다.
+
+```sql
+DELETE FROM <테이블 이름>
+WHERE <조건>;
+```
+```sql
+DELETE 
+  FROM product
+  WHERE sell_price >= 5000;
+```
+
+### 데이터 갱신
+#### UPDATE ?
+`UPDATE`는 레코드(행)을 갱신하는 구이다.
+
+```sql
+UPDATE <테이블 이름>
+   SET <열 이름> = <값>
+   WHERE <조건>;
+```
+```sql
+UPDATE product
+   SET sell_price = sell_price * 10 
+ WHERE classify = '주방용품';
+```
+
+복수 열 갱신
+```sql
+-- 방법 1
+UPDATE product
+   SET sell_price = sell_price * 20,
+       buy_price = buy_price / 2
+ WHERE classify = '주방용품';
+
+-- 방법 2
+UPDATE product
+   SET (sell_price, buy_price) = (sell_price * 20, buy_price / 2)
+ WHERE classify = '주방용품';
+```
+
+### 트랜잭션
+#### 트랜잭션 ?
+세트로 실행해야 할 하나 이상의 갱신(DELETE, INSERT, UPDATE) 처리 집합이다.
+
+```sql
+트랜잭션 개시문;
+  DML 문1;
+  DML 문2;
+  DML 문3;
+  ...
+트랜잭션 종료문(COMMIT or ROLLBACK);
+```
+```sql
+-- postgresSQL
+BEGIN TRANSACTION
+ ....
+COMMIT
+
+-- mySQL
+START TRANSACTION
+ ....
+COMMIT
+```
+#### ACID 특성
+
+### 원자성(Atomicity)
+### 일관성(Consistency)
+### 독립성(Isolation)
+### 지속성(Durability)
