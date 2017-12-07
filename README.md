@@ -534,5 +534,45 @@ ORDER BY id;
 
 ## 결합
 ### 결합 ?
+`결합(JOIN)`은 다른 테이블에서 열을 가지고 와서 **열을 늘리는** 처리다.
+
+#### INNER JOIN (내부 결합)
+
+```sql
+SELECT TS.store_id, TS.store_name, TS.id, S.name, S.sell_price
+  FROM storeProduct AS TS 
+  INNER JOIN product AS S
+  ON TS.id = S.id; -- ON은 결합 조건(두개의 테이블을 연결할 열(결합키)을 설명하는 구이다.
+```
+3개의 테이블을 내부 결합
+```sql
+SELECT TS.store_id, TS.store_name, TS.id, S.name, S.sell_price, ZS.stock_num
+  FROM storeProduct AS TS
+  INNER JOIN product AS S
+  ON TS.id = S.id
+  INNER JOIN stockProduct ZS
+  ON TS.id = ZS.id
+WHERE ZS.storage_id = 'S001';
+```
+
+#### OUTER JOIN (외부 결합)
+
+```sql
+SELECT TS.store_id, TS.store_name, S.id, S.name, S.sell_price
+  FROM storeProduct AS TS
+  RIGHT OUTER JOIN product AS S -- LEFT OUTER JOIN도 가능
+  ON TS.id = S.id;
+```
+
+#### CROSS JOIN (크로스 결합)
+`크로스 결합`은 두 개의 테이블에 있는 모든 레코드를 가지고 가능한 모든 조합을 만들어 내는 결합 방법이다. 한개의 테이블이 13행, 다른 테이블이 8행이라면 104행의 결과가 나온다.
+
+`내부 결합`은 '`크로스 결합` 결과에 포함되는 부분을 가진다'라는 의미를 내포하며, `외부 결합`은 '`크로스 결합` 결과에 포함되지 않는 부분을 가진다'라는 의미가 있다.
+
+```sql
+SELECT TS.store_id, TS.store_name, TS.id, S.name
+  FROM storeProduct AS TS
+  CROSS JOIN product AS S;
+```
 
 
