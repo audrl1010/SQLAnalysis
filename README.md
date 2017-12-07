@@ -464,4 +464,75 @@ SELECT classify, name, sell_price
                         WHERE S1.classify = S2.classify);
 ```
 
+## 집합연산
+### 집합연산 ?
+`집합`은 `레코드 집합`을 의미한다. `집합연산`은 `집합(=레코드 집합)을 더하거나 빼는  즉, 사칙연산이다. `집합연산`을 통해 두 개의 테이블에 있는 레코드를 모은 결과나 공통 레코드를 모은 결과, 한쪽에만 있는 레코드를 모은 결과 등을 취득할 수 있다.
+
+### UNION (레코드 덧셈)
+수학에서의 `합집합`처럼 레코드들을 합칠 수 있다.
+
+```sql
+SELECT id, name
+  FROM product
+UNION
+SELECT id, name
+  FROM product2
+```
+
+* Note: 중복 행은 제외한다. 만약에 중복 행을 포함하고 싶다면 `UNION ALL`을 사용한다.
+
+### 집합 연산의 주의사항
+#### 연산 대상이 되는 레코드의 열수가 같아야 한다.
+```sql
+-- 열 수가 불일치하기 때문에 에러
+SELECT id, name
+  FROM product
+UNION
+SELECT id, name, sell_price
+  FROM product2
+```
+#### 덧셈 대상이 되는 레코드의 열이 같은 데이터형일 것
+```sql
+SELECT id, sell_price
+  FROM product
+UNION
+SELECT id, register_date
+  FROM product2
+```
+#### SELECT문은 어떤 것이든 지정할 수 있다. 단, ORDER BY 구는 마지막에 하나만 가능
+```sql
+SELECT id, name
+  FROM product
+  WHERE classify = '주방용품'
+UNION
+SELECT id, name
+  FROM product2
+  WHERE classify = '주방용품'
+ORDER BY id;
+```
+
+### INTERSECT (테이블 간 공통 부분 선택)
+두 레코드 집합의 공통 부분을 선택하는 것.
+
+```sql
+SELECT id, name
+  FROM product
+INTERSECT
+SELECT id, name
+  FROM product2
+ORDER BY id;
+```
+### EXCEPT (레코드 뺄셈)
+```sql
+SELECT id, name
+  FROM product
+EXCEPT
+SELECT id, name
+  FROM product2
+ORDER BY id;
+```
+
+## 결합
+### 결합 ?
+
 
