@@ -237,7 +237,6 @@ FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
 ```sql
 FROM -> ON -> JOIN -> WHERE -> GROUP BY -> CUBE | ROLLUP -> HAVING -> SELECT -> DISTINCT -> ORDER BY -> TOP
 ```
-
 ## 집약 함수와 GROUP BY 구를 사용할 때 자주하는 실수
 
 ### SELECT 구에 필요 없는 열을 쓴다
@@ -247,5 +246,38 @@ FROM -> ON -> JOIN -> WHERE -> GROUP BY -> CUBE | ROLLUP -> HAVING -> SELECT -> 
 SELECT name, price, COUNT(*) -- name 때문에 에러가 난다. GROUP BY구에 없기 때문에 SELECT 구에 쓸 수 없다.
   FROM product
 GROUP BY price; 
+```
+### GRUP BY 구에 별명을 쓴다
+```sql
+SELECT classify AS sb, COUNT(*)
+  FROM product
+GROUP BY sb; -- error, SELECT 구에서 부여한 별명을 GROUP BY 구에서 사용할 수 없다. (단 PostgresSQL은 허용한다.)
+```
+
+### GRUP BY 구는 결과의 순서를 정렬한다?
+`GROUP BY` 구를 사용해도 표시 순서는 소트되지 않는다.
+
+### WHERE 구에 집약함수를 사용한다.
+집약함수를 사용할 수 있는 부분은 `SELECT`구와 `HAVING` 구, `ORDER BY`구 뿐이다.
+
+## HAVING 구
+`GROUP BY`를 통해 원 테이블을 그룹으로 나누어진 그룹에 대해 조건을 지정해서 선택하는 방법이다.
+
+```sql
+SELECT classify, COUNT(*)
+  FROM product
+GROUP BY classify
+HAVING COUNT(*) = 2;
+```
+### HAVING 구에 쓸 수 있는 요소
+`상수`, `집약 함수`, `GROUP BY` 구에 지정한 열명(=집약키)
+
+## ORDER BY 구
+검색 결과를 재정렬하려고 사용한다.
+
+```sql
+SELECT id, name, sell_price, buy_price
+  FROM product
+ORDER BY sell_price ASC -- DESC(내림차순);
 ```
 
