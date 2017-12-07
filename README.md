@@ -375,3 +375,93 @@ COMMIT
 ### 일관성(Consistency)
 ### 독립성(Isolation)
 ### 지속성(Durability)
+
+### 뷰
+#### 뷰와 테이블 차이
+테이블과 뷰는 비슷하지만, 테이블은 `실제 데이터`를 저장하는 반면, 뷰는 테이블에서 데이터를 꺼내는 `SELECT 문`을 저장한다.
+
+```sql
+CREATE VIEW <뷰 이름> (<뷰의 열명1>, <뷰의 열명2>, ...)
+AS
+<SELECT 문> -- SELECT문 열과 뷰 열의 순서가 일치해야 한다.
+```
+
+```sql
+CREATE VIEW productSum (classify, count_product)
+AS
+SELECT classify, COUNT(*)
+  FROM product
+  GROUP BY classify;
+
+-- 사용
+SELECT classify, count_product
+  FROM productSum
+```
+#### 뷰의 제약사항
+- 뷰 정의에 ORDER BY구는 사용할 수 없습니다.
+
+#### 뷰 삭제
+```sql
+DROP VIEW <뷰 이름>;
+```
+
+```sql
+DROP VIEW productSum;
+```
+
+### 서브쿼리
+#### 서브쿼리와 뷰
+`서브쿼리`는 뷰를 기반으로 하는 기술이다. 즉, `일회용 뷰`이다.
+그러면 서브쿼리와 뷰의 차이는 ? 뷰는 데이터 자체를 저장하는 것이 아니라 데이터를 추출하는 `SELECT`문을 저장하는 방법으로, 사용자 편이성을 향상시키는 도구이고, 서브쿼리는 **뷰 정의 SELECT문**을 그대로 `FROM` 구에 삽입한 것이다.
+
+```sql
+-- 뷰
+CREATE VIEW productSum (classify, count_product)
+AS
+SELECT classify, COUNT(*)
+  FROM product
+  GROUP BY classify;
+
+
+SELECT classify, count_product
+  FROM productSum;
+
+-- 서브쿼리
+SELECT classify, count_product
+  FROM (SELECT classify, COUNT(*) AS count_product
+          FROM product
+          GROUP BY classify) AS productSum;
+
+```
+#### 스칼라 서브쿼리
+`스칼라 서브쿼리`는 '**반드시 1행 1열만을 반환 값으로 반환한다**'라는 제약을 가진 서브쿼리이다. 즉, 10 or '부산' 처럼 하나의 값이 나온다.
+
+```sql
+-- 판매단가(sell_price)가 모든 상품의 평균 판매단가보다 높은 상품을 선택
+SELECT id, name, sell_price
+  FROM product
+  WHERE sell_price > (SELECT AVG(sell_price)
+                        FROM product);
+```
+
+`스칼라 서브쿼리`는 상수 or 열명을 쓸 수 있는 곳이라면 모두 가능하다.
+```sql
+SELECT id, name, sell_price, (SELECT AVG(sell_price) FROM product) AS avg_price
+  FROM product;
+```
+* Note: 스칼라 서브쿼리 사용시 복수 행을 반환하지 않도록 해야 한다.
+
+#### 상관 서브쿼리
+바깥 쿼리 테이블의 열이 안쪽 쿼리에 나오는 경우.
+* Note: 상관 서브쿼리는 성능이 좋지 않다.
+
+```sql
+-- 상품 분류별(classify)별로 평균 판매단가보다 높은 상품 질의
+SELECT classify, name, sell_price
+  FROM product AS S1
+  WHERE sell_price > (SELECT AVG(sell_price)
+                        FROM product AS S2
+                        WHERE S1.classify = S2.classify);
+```
+
+
